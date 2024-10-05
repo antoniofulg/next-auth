@@ -1,7 +1,7 @@
 import { CheckCircledIcon } from "@radix-ui/react-icons"
 
 type Props = {
-	message: string
+	message?: string
 }
 
 export const FormSuccess = ({ message }: Props) => {
