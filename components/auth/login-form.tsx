@@ -18,13 +18,11 @@ import { LoginSchema } from "@/schemas"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/form-error"
-import { FormSuccess } from "@/components/form-success"
 import { login } from "@/actions/login"
 import { useState, useTransition } from "react"
 
 export const LoginForm = () => {
 	const [error, setError] = useState<string | undefined>()
-	const [success, setSuccess] = useState<string | undefined>()
 	const [isPending, startTransition] = useTransition()
 
 	const form = useForm<z.infer<typeof LoginSchema>>({
@@ -37,12 +35,10 @@ export const LoginForm = () => {
 
 	const onSubmit = (data: z.infer<typeof LoginSchema>) => {
 		setError(undefined)
-		setSuccess(undefined)
 
 		startTransition(() => {
 			login(data).then((result) => {
-				setError(result.error)
-				setSuccess(result.success)
+				setError(result?.error)
 			})
 		})
 	}
@@ -95,7 +91,6 @@ export const LoginForm = () => {
 						/>
 					</div>
 					<FormError message={error} />
-					<FormSuccess message={success} />
 					<Button
 						type="submit"
 						size="lg"
