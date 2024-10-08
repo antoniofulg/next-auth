@@ -20,8 +20,15 @@ import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/form-error"
 import { login } from "@/actions/login"
 import { useState, useTransition } from "react"
+import { useSearchParams } from "next/navigation"
 
 export const LoginForm = () => {
+	const searchParams = useSearchParams()
+	const urlError =
+		searchParams.get("error") === "OAuthAccountNotLinked"
+			? "Email already in use with different provider"
+			: ""
+
 	const [error, setError] = useState<string | undefined>()
 	const [isPending, startTransition] = useTransition()
 
@@ -90,7 +97,7 @@ export const LoginForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message={error} />
+					<FormError message={error || urlError} />
 					<Button
 						type="submit"
 						size="lg"
